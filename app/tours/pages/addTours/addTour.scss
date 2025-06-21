@@ -1,0 +1,74 @@
+@import '../../../styles/global.scss';
+
+h1 {
+  text-align: center;
+  color: $primary-color;
+  margin-top: 30px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 300px;
+  margin: 30px auto;
+  padding: 20px;
+  border: 1px solid lighten($primary-color, 30%);
+  border-radius: 8px;
+  background-color: #f9f9f9;
+
+  label {
+    font-size: 14px;
+    color: $primary-color;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+  }
+
+  input,
+  textarea {
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    resize: vertical;
+  }
+
+  button {
+    padding: 10px 15px;
+    background-color: $button-color;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: darken($button-color, 10%);
+    }
+  }
+}
+
+#error-message {
+  text-align: center;
+  color: $warn-color;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+input,
+textarea {
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  resize: vertical;
+}
+
+select {
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
