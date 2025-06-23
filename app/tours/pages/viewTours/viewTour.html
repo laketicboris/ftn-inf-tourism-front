@@ -1,36 +1,42 @@
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>View Tours</title>
-        <link rel="stylesheet" href="../../../../dist/tours/pages/viewTours/viewTour.css">
-        <script type="module" src="../../../../dist/tours/pages/viewTours/viewTour.js"></script>
-    </head>
-    <body>
-        <h1>Tours</h1>
 
-        <div id="tours-table-details">
-            <table id="tours-table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Start Time</th>
-                        <th>Max Visitors</th>
-                        <th>Status</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Tours</title>
+    <link rel="stylesheet" href="../../../../dist/tours/pages/viewTours/viewTour.css">
+    <script type="module" src="../../../../dist/tours/pages/viewTours/viewTour.js"></script>
+</head>
 
+<body>
+    <h1>Tours</h1>
+
+    <div id="tours-table-details">
+        <table id="tours-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Start Time</th>
+                    <th>Max Visitors</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <div class="tooltip-wrapper">
             <button id="add-tour-btn">Add new tour</button>
+            <div id="add-tour-tooltip" class="tooltip hidden">Click to add new tour.</div>
         </div>
-    </body>
+
+    </div>
+</body>
+
 </html>

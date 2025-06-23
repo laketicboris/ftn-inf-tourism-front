@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Add New Tour</title>
   <link rel="stylesheet" href="../../../../dist/tours/pages/addTours/addTour.css">
   <script type="module" src="../../../../dist/tours/pages/addTours/addTour.js"></script>
 </head>
+
 <body>
   <h1>Add New Tour</h1>
 
   <form id="add-tour-form">
-  <label for="name">Name:
-    <input type="text" id="name" required>
-  </label>
+    <label for="name">Name:
+      <input type="text" id="name" required>
+    </label>
 
-  <label for="description">Description:
-    <textarea id="description" required></textarea>
-  </label>
+    <label for="description">Description:
+      <textarea id="description" required></textarea>
+    </label>
 
-  <label for="startDateTime">Start Date & Time:
-    <input type="datetime-local" id="startDateTime" required>
-  </label>
+    <label for="startDateTime">Start Date & Time:
+      <input type="datetime-local" id="startDateTime" required>
+    </label>
 
-  <label for="maxParticipants">Max Participants:
-    <input type="number" id="maxParticipants" required>
-  </label>
+    <label for="maxParticipants">Max Participants:
+      <input type="number" id="maxParticipants" required>
+    </label>
 
-  <label for="status">Status:
-  <select id="status" required>
-    <option value="u pripremi">U pripremi</option>
-    <option value="objavljeno">Objavljeno</option>
-  </select>
-  </label>
+    <label for="status">Status:
+      <select id="status" required>
+        <option value="u pripremi">U pripremi</option>
+        <option value="objavljeno">Objavljeno</option>
+      </select>
+    </label>
 
 
-  <button type="submit">Add Tour</button>
-</form>
+    <div class="tooltip-wrapper">
+      <button type="submit" id="saveBtn">Add Tour</button>
+      <div class="tooltip">Click to save new tour</div>
+    </div>
+  </form>
 
   <p id="error-message" style="color: red;"></p>
 </body>
+
 </html>

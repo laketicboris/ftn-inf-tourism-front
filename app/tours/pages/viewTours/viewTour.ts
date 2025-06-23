@@ -67,9 +67,10 @@ function renderTours(): void {
 document.addEventListener("DOMContentLoaded", () => {
   renderTours();
 
-  const addBtn = document.getElementById("add-tour-btn");
+  const addBtn = document.getElementById("add-tour-btn") as HTMLButtonElement;
   if (addBtn) {
     addBtn.addEventListener("click", () => {
+      addBtn.disabled = true;
       window.location.href = "../addTours/addTour.html";
     });
   }
