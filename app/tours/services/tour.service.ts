@@ -5,7 +5,7 @@ export class TourService {
   private apiUrl: string;
 
   constructor() {
-    this.apiUrl = 'http://localhost:48696/api/tours';
+    this.apiUrl = 'http://localhost:5105/api/users';
   }
 
   getAll(): Promise<Tour[]> {

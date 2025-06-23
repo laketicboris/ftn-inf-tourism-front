@@ -28,6 +28,13 @@ function handleLogin(event: Event) {
             localStorage.setItem('username', user.username);
             localStorage.setItem('role', user.role);
             setUserLoginState(true);
+
+            if(user.role === 'vlasnik'){
+                window.location.href = "../../../restaurants/pages/viewRestaurants/viewRestaurants.html";
+            }
+            if(user.role === 'turista'){
+                window.location.href = "../../../tours/pages/viewTours/viewTour.html";
+            }
         })
         .catch((error) => {
             console.error('Login failed', error.message);
