@@ -1,8 +1,24 @@
 $primary-color: #007bff;
 $accent-color: #ff5733;
-$warn-color: #d9534f; 
-$button-color: #28a745; 
-$light-primary: #b3d4fc;
+$warn-color: #d9534f;
+$button-color: #28a745;
+
+$warn-color: #d9534f;
+$button-color: #28a745;
+$warn-color: #d9534f;
+$button-color: #28a745;
+$color1: whitesmoke;
+$color2: darkslategray;
+$color3: lightsalmon;
+$color4: rgba(255, 255, 255, 0.2);
+$warn-color: darkred;
+$text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+$box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+// Fonts
+$font-size-small: 16px;
+$font-size-medium: 24px;
+$font-size-large: 32px;
 
 body {
     font-family: Arial, sans-serif;
@@ -64,5 +80,5 @@ button {
     #logout {
         margin-left: auto;
     }
-    
+
 }
