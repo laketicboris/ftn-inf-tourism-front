@@ -7,4 +7,5 @@ export interface Restaurant {
     latitude: number;
     longitude: number;
     status: string;
+    ownerId: number
 }

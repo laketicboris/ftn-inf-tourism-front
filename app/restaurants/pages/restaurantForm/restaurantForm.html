@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodaj ili izmeni grupu</title>
+    <link rel="stylesheet" href="../../../../dist/restaurants/pages/restaurantForm/restaurantForm.css">
+    <script type="module" src="../../../../dist/restaurants/pages/restaurantForm/restaurantForm.js"></script>
+</head>
+
+<body>
+    <nav class="navbar">
+        <h1 class="title">Kreiraj Restoran</h1>
+        
+    </nav>
+    <div id="restaurant-form">
+        <h2>Add new or change existing restaurant</h2>
+        <form id="form">
+            <label for="name">Name of restaurant:</label>
+            <input type="text" id="name" name="name" placeholder=" Restaurant Name" />
+            <span id="nameError"></span>
+
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder=" Restaurant Description" />
+            <span id="descriptionError"></span>
+
+            <label for="capacity">Capacity:</label>
+            <input type="number" id="capacity" name="capacity" placeholder=" Restaurant Capacity" />
+            <span id="capacityError"></span>
+
+            <label for="image">Image:</label>
+            <input type="text" id="image" name="image" placeholder=" Restaurant Image" />
+            <span id="imageError"></span>
+
+            <label for="latitude">Latitude:</label>
+            <input type="number" id="latitude" name="latitude" placeholder=" Restaurant Latitude" />
+            <span id="latitudeError"></span>
+            <label for="longitude">Longitude:</label>
+            <input type="number" id="longitude" name="longitude" placeholder=" Restaurant Longitude" />
+            <span id="longitudeError"></span>
+
+        </form>
+        <div class="actions">
+            <button id="submitBtn">Submit</button>
+            <button id="cancelBtn">Cancel</button>
+        </div>
+    </div>
+    
+</body>
+
+</html>

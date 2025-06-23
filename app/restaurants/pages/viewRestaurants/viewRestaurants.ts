@@ -54,14 +54,18 @@ function renderData(): void {
                 cell7.textContent = restoran.status.toString();
 
                 const cell8 = document.createElement("td");
+                cell8.textContent = restoran.ownerId.toString();
+
+                const cell9 = document.createElement("td");
+
                 const editBtn = document.createElement("button");
                 editBtn.textContent = "Edit";
                 editBtn.addEventListener("click", function () {
                     // window.location.href = "./usersForm/usersForm.html?id=" + korisnik.id;
                 });
-                cell8.appendChild(editBtn);
+                cell9.appendChild(editBtn);
 
-                const cell9 = document.createElement("td");
+                const cell10 = document.createElement("td");
                 const deleteBtn = document.createElement("button");
                 deleteBtn.textContent = "Delete";
 
@@ -75,7 +79,8 @@ function renderData(): void {
                     //     });
                 };
 
-                cell9.appendChild(deleteBtn);
+
+                cell10.appendChild(deleteBtn);
 
                 newRow.appendChild(cell1);
                 newRow.appendChild(cell2);
@@ -86,6 +91,7 @@ function renderData(): void {
                 newRow.appendChild(cell7);
                 newRow.appendChild(cell8);
                 newRow.appendChild(cell9);
+                newRow.appendChild(cell10);
                 table.appendChild(newRow);
             });
         })
