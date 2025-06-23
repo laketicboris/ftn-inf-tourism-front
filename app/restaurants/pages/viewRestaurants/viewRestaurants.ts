@@ -20,22 +20,22 @@ function renderData(): void {
                 return;
             }
 
-            restorani.forEach((restoran) => {
+            restorani.forEach((restaurant) => {
                 const newRow = document.createElement("tr");
 
                 const cell1 = document.createElement("td");
-                cell1.textContent = restoran.name;
+                cell1.textContent = restaurant.name;
 
                 const cell2 = document.createElement("td");
-                cell2.textContent = restoran.description;
+                cell2.textContent = restaurant.description;
 
                 const cell3 = document.createElement("td");
-                cell3.textContent = restoran.capacity.toString();
+                cell3.textContent = restaurant.capacity.toString();
 
                 const cell4 = document.createElement("td");
-                if (restoran.imageUrl) {
+                if (restaurant.imageUrl) {
                     const img = document.createElement("img");
-                    img.src = restoran.imageUrl;
+                    img.src = restaurant.imageUrl;
                     img.alt = "Restaurant image";
                     img.style.width = "100px";
                     img.style.height = "auto";
@@ -45,23 +45,23 @@ function renderData(): void {
                 }
 
                 const cell5 = document.createElement("td");
-                cell5.textContent = restoran.latitude.toString();
+                cell5.textContent = restaurant.latitude.toString();
 
                 const cell6 = document.createElement("td");
-                cell6.textContent = restoran.longitude.toString();
+                cell6.textContent = restaurant.longitude.toString();
 
                 const cell7 = document.createElement("td");
-                cell7.textContent = restoran.status.toString();
+                cell7.textContent = restaurant.status.toString();
 
                 const cell8 = document.createElement("td");
-                cell8.textContent = restoran.ownerId.toString();
+                cell8.textContent = restaurant.ownerId.toString();
 
                 const cell9 = document.createElement("td");
 
                 const editBtn = document.createElement("button");
                 editBtn.textContent = "Edit";
                 editBtn.addEventListener("click", function () {
-                    // window.location.href = "./usersForm/usersForm.html?id=" + korisnik.id;
+                    window.location.href = "../restaurantForm/restaurantForm.html?id=" + restaurant.id;
                 });
                 cell9.appendChild(editBtn);
 
@@ -70,13 +70,13 @@ function renderData(): void {
                 deleteBtn.textContent = "Delete";
 
                 deleteBtn.onclick = function () {
-                    // userService.deleteUser(korisnik.id.toString())
-                    //     .then(() => {
-                    //         window.location.reload();
-                    //     })
-                    //     .catch(error => {
-                    //         console.error(error.status, error.text);
-                    //     });
+                    restaurantService.deleteRestaurant(restaurant.id.toString())
+                        .then(() => {
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            console.error(error.status, error.text);
+                        });
                 };
 
 

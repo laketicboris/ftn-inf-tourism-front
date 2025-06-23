@@ -29,6 +29,23 @@ export class RestaurantService {
             });
     }
 
+    getById(id: string): Promise<Restaurant> {
+        return fetch(`${this.apiUrl}/${id}`)
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorMessage => {
+                        throw { status: response.status, message: errorMessage }
+                    })
+                }
+                return response.json();
+            }).then((restaurant: Restaurant) => {
+                return restaurant;
+            }).catch(error => {
+                console.error('Error:', error.status)
+                throw error
+            });
+    }
+
     add(formData: RestaurantFormData): Promise<Restaurant> {
         return fetch(this.apiUrl, {
             method: 'POST',
@@ -45,6 +62,44 @@ export class RestaurantService {
             })
             .then((restaurant: Restaurant) => {
                 return restaurant;
+            })
+            .catch(error => {
+                console.error('Error:', error.status)
+                throw error
+            });
+    }
+
+    update(id: string, formData: RestaurantFormData): Promise<Restaurant> {
+        return fetch(`${this.apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorMessage => {
+                        throw { status: response.status, message: errorMessage }
+                    })
+                }
+                return response.json()
+            })
+            .then((restaurant: Restaurant) => {
+                return restaurant;
+            })
+            .catch(error => {
+                console.error('Error:', error.status)
+                throw error
+            });
+    }
+
+    deleteRestaurant(restaurantId: string): Promise<void> {
+        return fetch(`${this.apiUrl}/${restaurantId}`, { method: 'DELETE' })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorMessage => {
+                        throw { status: response.status, message: errorMessage }
+                    })
+                }
             })
             .catch(error => {
                 console.error('Error:', error.status)
