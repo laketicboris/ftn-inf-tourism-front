@@ -1,0 +1,74 @@
+@import '../../../styles/global.scss';
+
+#restaurant-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+        color: $color2;
+        text-shadow: none;
+        font-size: $font-size-large;
+        margin: 20px;
+    }
+
+    #form {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        background-color: $color2;
+        padding: 10px;
+        border-radius: 10px;
+
+        label {
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        span {
+            color: $color3;
+            padding-left: 10px;
+            text-shadow: none;
+        }
+
+        input {
+            height: 30px;
+            margin: 10px;
+            border-radius: 3px;
+            width: 50%;
+            min-width: 150px;
+
+            &:focus {
+                background-color: gainsboro;
+            }
+        }
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        width: 20%;
+        margin-top: 40px;
+
+        button {
+            background-color: $color2;
+            color: $color1;
+            text-shadow: none;
+            font-size: $font-size-small;
+            padding: 5px;
+            margin: 10px;
+            width: 150px;
+            height: 40px;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: $color3;
+                text-shadow: $text-shadow;
+                cursor: pointer;
+            }
+        }
+    }
+}
