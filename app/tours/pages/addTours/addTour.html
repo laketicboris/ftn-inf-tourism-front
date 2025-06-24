@@ -26,23 +26,26 @@
 
     <label for="maxParticipants">Max Participants:
       <input type="number" id="maxParticipants" required>
-    </label>
-
-    <label for="status">Status:
-      <select id="status" required>
-        <option value="u pripremi">U pripremi</option>
-        <option value="objavljeno">Objavljeno</option>
-      </select>
-    </label>
-
-
-    <div class="tooltip-wrapper">
-      <button type="submit" id="saveBtn">Add Tour</button>
-      <div class="tooltip">Click to save new tour</div>
-    </div>
-  </form>
-
-  <p id="error-message" style="color: red;"></p>
-</body>
-
-</html>
+      </label>
+      
+      <label for="status">Status:
+        <select id="status" required>
+          <option value="u pripremi">U pripremi</option>
+          <option value="objavljeno">Objavljeno</option>
+        </select>
+      </label>
+      
+      
+      <div class="tooltip-wrapper">
+        <button type="submit" id="saveBtn">Add Tour</button>
+        <div class="tooltip">Click to save new tour</div>
+      </div>
+      </form>
+      <div id="spinner" style="display: none;" class="spinner-overlay">
+        <div class="spinner"></div>
+      </div>
+      
+      <p id="error-message" style="color: red;"></p>
+      </body>
+      
+      </html>

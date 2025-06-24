@@ -3,7 +3,13 @@ import { TourService } from "../../services/tour.service.js";
 const tourService = new TourService();
 
 function renderTours(): void {
-  tourService.getAll()
+  const userId = localStorage.getItem("userId");
+  if (!userId) {
+    console.error("User ID not found in localStorage.");
+    return;
+  }
+
+  tourService.getByGuideId(userId)
     .then(tours => {
       const tableBody = document.querySelector("#tours-table tbody");
       if (!tableBody) return;

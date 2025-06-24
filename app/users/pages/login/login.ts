@@ -33,7 +33,7 @@ function handleLogin(event: Event) {
             if(user.role === 'vlasnik'){
                 window.location.href = "../../../restaurants/pages/viewRestaurants/viewRestaurants.html";
             }
-            if(user.role === 'turista'){
+            if(user.role === 'vodic'){
                 window.location.href = "../../../tours/pages/viewTours/viewTour.html";
             }
         })
@@ -45,6 +45,7 @@ function handleLogin(event: Event) {
 function handleLogout() {
     localStorage.removeItem('username');
     localStorage.removeItem('role');
+    localStorage.removeItem('userId');
     setUserLoginState(false);
 }
 

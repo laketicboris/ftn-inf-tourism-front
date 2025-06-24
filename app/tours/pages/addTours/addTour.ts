@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("#add-tour-form") as HTMLFormElement;
   const title = document.querySelector("h1");
 
+  const spinner = document.getElementById("spinner") as HTMLElement;
+  const errorMessage = document.getElementById("error-message") as HTMLElement;
+
   if (tourId) {
     if (title) title.textContent = "Edit Tour";
     loadTourForEdit(parseInt(tourId));
@@ -16,6 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    const saveBtn = document.querySelector("#saveBtn") as HTMLButtonElement;
+    saveBtn.disabled = true;
+
+    spinner.style.display = "flex";
+    errorMessage.textContent = "";
 
     const name = (document.querySelector("#name") as HTMLInputElement).value;
     const description = (document.querySelector("#description") as HTMLTextAreaElement).value;
@@ -26,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const userIdString = localStorage.getItem("userId");
     if (!userIdString || isNaN(Number(userIdString))) {
       alert("User not logged in or ID is invalid.");
+      saveBtn.disabled = false;
+      saveBtn.textContent = "Add Tour";
       return;
     }
     const guideId = Number(userIdString);
@@ -47,7 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "../viewTours/viewTour.html";
         })
         .catch((error) => {
-          alert("Error updating tour: " + error.message);
+          errorMessage.textContent = "Error updating tour: " + (error.message || "Something went wrong.");
+        saveBtn.disabled = false;
+        })
+        .finally(() =>{
+          spinner.style.display ="none";
         });
     } else {
       tourService
@@ -57,7 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = "../viewTours/viewTour.html";
         })
         .catch((error) => {
-          alert("Error creating tour: " + error.message);
+          errorMessage.textContent = "Error creating tour: " + (error.message || "Something went wrong.");
+        saveBtn.disabled = false;
+        })
+        .finally(() =>{
+          spinner.style.display = "none"
         });
     }
   });
