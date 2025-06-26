@@ -5,11 +5,36 @@ export class TourService {
   private apiUrl: string;
 
   constructor() {
-    this.apiUrl = 'http://localhost:5105/api/users';
+    this.apiUrl = 'http://localhost:5105/api/tours';
+  }
+
+  getByGuideId(guideId: string | number): Promise<Tour[]> {
+    return fetch(`${this.apiUrl}?guideId=${guideId}`)
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage };
+          });
+        }
+        return response.json();
+      })
+      .then((tours: Tour[]) => tours)
+      .catch(error => {
+        console.error("Error fetching tours:", error.status || error.message);
+        throw error;
+      });
   }
 
   getAll(): Promise<Tour[]> {
-    const url = `${this.apiUrl}?page=1&pageSize=100&orderBy=Id&orderDirection=ASC`;
+    const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+
+    let url = `${this.apiUrl}?page=1&pageSize=100&orderBy=Id&orderDirection=ASC`;
+
+    if (role === "vodic" && userId) {
+      url += `&guideId=${userId}`;
+    }
+
     return fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -23,6 +48,7 @@ export class TourService {
         return result.data;
       });
   }
+
 
   create(tourData: TourFormData): Promise<Tour> {
     return fetch(this.apiUrl, {

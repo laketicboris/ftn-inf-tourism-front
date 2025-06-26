@@ -23,6 +23,8 @@ $font-size-small: 16px;
 $font-size-medium: 24px;
 $font-size-large: 32px;
 
+$light-primary: lighten($primary-color, 30%);
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
