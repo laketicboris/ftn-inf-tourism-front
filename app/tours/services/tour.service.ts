@@ -1,5 +1,6 @@
 import { Tour } from "../models/tour.model.js";
 import { TourFormData } from "../models/tourFormData.model.js";
+import { KeypointFormData } from "../models/keypointFormData.model.js";
 
 export class TourService {
   private apiUrl: string;
@@ -91,6 +92,38 @@ export class TourService {
             throw { status: response.status, message: errorMessage };
           });
         }
+      });
+  }
+
+  addKeyPoint(tourId: number, keyPointData: KeypointFormData): Promise<void> {
+    return fetch(`${this.apiUrl}/${tourId}/key-points`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(keyPointData),
+    }).then(response => {
+      if (!response.ok) {
+        return response.text().then(msg => { throw new Error(msg); });
+      }
+    });
+  }
+
+  deleteKeyPoint(tourId: number, keyPointId: number): Promise<void> {
+    return fetch(`${this.apiUrl}/${tourId}/key-points/${keyPointId}`, {
+      method: "DELETE"
+    }).then(response => {
+      if (!response.ok) {
+        return response.text().then(msg => { throw new Error(msg); });
+      }
+    });
+  }
+
+  getById(id: number): Promise<Tour> {
+    return fetch(`${this.apiUrl}/${id}`)
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(msg => { throw new Error(msg); });
+        }
+        return response.json();
       });
   }
 }

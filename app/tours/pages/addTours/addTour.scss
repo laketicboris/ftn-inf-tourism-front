@@ -6,13 +6,32 @@ h1 {
   margin-top: 30px;
 }
 
+.tour-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.forms-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  margin-bottom: 3rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 300px;
-  margin: 30px auto;
+  width: 100%;
+  max-width: 400px;
+  margin: 0;
   padding: 20px;
+  flex: 1;
 
   border: 1px solid $light-primary;
   border-radius: 8px;
@@ -56,7 +75,6 @@ form {
       width: fit-content;
 
       &:hover {
-
         border: 1px solid $light-primary;
         transform: scale(1.05);
       }
@@ -123,7 +141,215 @@ form {
 }
 
 @keyframes spin {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
+.existing-keypoints {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+
+  h3 {
+    color: $primary-color;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  #keypoints-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 0 20px;
+
+    .keypoint-card {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      overflow: hidden;
+      min-height: 120px;
+      height: auto;
+
+      .card-image {
+        flex-shrink: 0;
+
+        img {
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          border-radius: 6px;
+        }
+      }
+
+      .card-content {
+        flex-grow: 1;
+        min-width: 0;
+        max-width: calc(100% - 120px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .card-title {
+          font-size: 16px;
+          font-weight: bold;
+          color: $primary-color;
+          margin: 0 0 8px 0;
+        }
+
+        .card-description {
+          font-size: 14px;
+          color: #666;
+          margin: 0 0 5px 0;
+          line-height: 1.4;
+          word-break: break-all;
+          overflow-wrap: break-word;
+          flex-grow: 1;
+        }
+
+        .card-coordinates {
+          font-size: 12px;
+          color: #999;
+          margin: 0;
+          font-family: monospace;
+        }
+
+        .card-details {
+          margin-top: 10px;
+          padding: 10px;
+          background-color: #f8f9fa;
+          border-radius: 4px;
+          border-left: 3px solid $primary-color;
+          max-width: 100%;
+          overflow: hidden;
+
+          h4 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: $primary-color;
+          }
+
+          p {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #555;
+            word-break: break-all;
+            overflow-wrap: break-word;
+          }
+        }
+      }
+
+      .card-actions {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        button {
+          padding: 6px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+          transition: background-color 0.3s ease;
+
+          &.details-btn {
+            background-color: $button-color;
+            color: white;
+
+            &:hover {
+              background-color: darken($button-color, 10%);
+            }
+          }
+
+          &.remove-btn {
+            background-color: $warn-color;
+            color: white;
+
+            &:hover {
+              background-color: darken($warn-color, 10%);
+            }
+          }
+
+          &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+
+    .no-keypoints {
+      text-align: center;
+      color: #666;
+      padding: 40px 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 2px dashed #ddd;
+    }
+  }
+}
+
+.keypoints-section {
+  flex: 1;
+  max-width: 400px;
+  margin: 0;
+
+  #keypoint-form {
+    margin-top: 0;
+
+    h4 {
+      color: $primary-color;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    #addKeypointBtn,
+    #publishBtn {
+      width: 100%;
+      background-color: $button-color;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+
+      &:hover:not(:disabled) {
+        background-color: darken($button-color, 10%);
+      }
+
+      &:disabled {
+        background-color: gray;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+    }
+
+    #publishBtn {
+      background-color: #28a745;
+
+      &:hover:not(:disabled) {
+        background-color: darken(#28a745, 10%);
+      }
+    }
+  }
+}

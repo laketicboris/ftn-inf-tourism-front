@@ -11,41 +11,96 @@
 <body>
   <h1>Add New Tour</h1>
 
-  <form id="add-tour-form">
-    <label for="name">Name:
-      <input type="text" id="name" required>
-    </label>
+  <div class="tour-container">
+    <div class="forms-container">
+      <!-- LEVA FORMA - Tour podaci -->
+      <form id="add-tour-form">
+        <label for="name">Name:
+          <input type="text" id="name" required>
+        </label>
 
-    <label for="description">Description:
-      <textarea id="description" required></textarea>
-    </label>
+        <label for="description">Description:
+          <textarea id="description" required></textarea>
+        </label>
 
-    <label for="startDateTime">Start Date & Time:
-      <input type="datetime-local" id="startDateTime" required>
-    </label>
+        <label for="startDateTime">Start Date & Time:
+          <input type="datetime-local" id="startDateTime" required>
+        </label>
 
-    <label for="maxParticipants">Max Participants:
-      <input type="number" id="maxParticipants" required>
-      </label>
-      
-      <label for="status">Status:
-        <select id="status" required>
-          <option value="u pripremi">U pripremi</option>
-          <option value="objavljeno">Objavljeno</option>
-        </select>
-      </label>
-      
-      
-      <div class="tooltip-wrapper">
-        <button type="submit" id="saveBtn">Add Tour</button>
-        <div class="tooltip">Click to save new tour</div>
-      </div>
+        <label for="maxParticipants">Max Participants:
+          <input type="number" id="maxParticipants" required>
+        </label>
+
+        <label for="status">Status:
+          <select id="status" required>
+            <option value="u pripremi">In Preparation</option>
+            <option value="objavljena">Published</option>
+          </select>
+        </label>
+
+        <div class="tooltip-wrapper">
+          <button type="submit" id="saveBtn">Add Tour</button>
+          <div class="tooltip">Click to save new tour</div>
+        </div>
       </form>
-      <div id="spinner" style="display: none;" class="spinner-overlay">
-        <div class="spinner"></div>
+
+      <!-- DESNA FORMA - Keypoint podaci -->
+      <section class="keypoints-section">
+        <form id="keypoint-form">
+          <h4>Add new Keypoint:</h4>
+          <input type="text" id="kp-name" placeholder="Name" required />
+          <input type="text" id="kp-desc" placeholder="Description" required />
+          <input type="url" id="kp-img" placeholder="Image URL" required />
+          <input type="number" step="any" id="kp-lat" placeholder="Latitude" required />
+          <input type="number" step="any" id="kp-lon" placeholder="Longitude" required />
+
+          <button type="submit" id="addKeypointBtn" disabled>Add Keypoint</button>
+          <button type="button" id="publishBtn" disabled style="margin-top: 1rem;">Publish Tour</button>
+        </form>
+      </section>
+    </div>
+
+    <!-- KEYPOINTS KARTICE - ispod oba forma -->
+    <section class="existing-keypoints">
+      <h3>Keypoints:</h3>
+      <div id="keypoints-container"></div>
+    </section>
+  </div>
+
+  <div id="spinner" style="display: none;" class="spinner-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <p id="error-message" style="color: red; margin-top: 1rem;"></p>
+
+  <!-- TEMPLATE za keypoint kartice -->
+  <template id="keypoint-card-template">
+    <div class="keypoint-card">
+      <div class="card-image">
+        <img src="" alt="" />
       </div>
-      
-      <p id="error-message" style="color: red;"></p>
-      </body>
-      
-      </html>
+      <div class="card-content">
+        <h3 class="card-title"></h3>
+        <p class="card-description"></p>
+        <p class="card-coordinates"></p>
+        <div class="card-details" style="display: none;">
+          <h4>Detailed Description:</h4>
+          <p class="full-description"></p>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="details-btn">Details</button>
+        <button class="remove-btn">Delete</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="no-keypoints-template">
+    <div class="no-keypoints">
+      No keypoints added yet.<br>
+      Add at least 2 keypoints with 250+ character descriptions to publish the tour.
+    </div>
+  </template>
+</body>
+
+</html>
