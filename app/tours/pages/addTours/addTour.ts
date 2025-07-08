@@ -7,15 +7,53 @@ const tourService = new TourService();
 const urlParams = new URLSearchParams(window.location.search);
 const tourId = urlParams.get("id");
 
+const editKeypointId = urlParams.get("editKeypoint");
+let isEditingKeypoint = false;
+let editingKeypointId: number | null = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   if (tourId) {
     loadTourForEdit(parseInt(tourId));
+  }
+
+  if (editKeypointId && tourId) {
+    loadKeypointForEdit(parseInt(editKeypointId));
   }
 
   initAddTourForm();
   setupKeypointForm();
   setupPublishButton();
 });
+
+function loadKeypointForEdit(keypointId: number): void {
+  if (!tourId) return;
+
+  tourService.getById(Number(tourId)).then(tour => {
+    const keypoint = tour.keyPoints.find(kp => kp.id === keypointId);
+    if (keypoint) {
+      (document.getElementById("kp-name") as HTMLInputElement).value = keypoint.name;
+      (document.getElementById("kp-desc") as HTMLInputElement).value = keypoint.description;
+      (document.getElementById("kp-img") as HTMLInputElement).value = keypoint.imageUrl || '';
+      (document.getElementById("kp-lat") as HTMLInputElement).value = keypoint.latitude.toString();
+      (document.getElementById("kp-lon") as HTMLInputElement).value = keypoint.longitude.toString();
+
+      isEditingKeypoint = true;
+      editingKeypointId = keypointId;
+
+      const submitBtn = document.querySelector("#keypoint-form button[type='submit']") as HTMLButtonElement;
+      if (submitBtn) submitBtn.textContent = "Update Keypoint";
+    }
+  });
+}
+function resetEditMode(): void {
+  isEditingKeypoint = false;
+  editingKeypointId = null;
+  const submitBtn = document.querySelector("#keypoint-form button[type='submit']") as HTMLButtonElement;
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Add Keypoint";
+  }
+}
 
 function initAddTourForm(): void {
   const form = document.querySelector("#add-tour-form") as HTMLFormElement;
@@ -81,36 +119,67 @@ function setupKeypointForm(): void {
     if (!tourId) return;
 
     addBtn.disabled = true;
-    addBtn.textContent = "Adding...";
 
-    tourService.getById(Number(tourId)).then(tour => {
+    if (isEditingKeypoint && editingKeypointId) {
+      addBtn.textContent = "Updating...";
+
       const kp: KeypointFormData = {
         name: (document.getElementById("kp-name") as HTMLInputElement).value,
         description: (document.getElementById("kp-desc") as HTMLInputElement).value,
         imageUrl: (document.getElementById("kp-img") as HTMLInputElement).value,
         latitude: parseFloat((document.getElementById("kp-lat") as HTMLInputElement).value),
         longitude: parseFloat((document.getElementById("kp-lon") as HTMLInputElement).value),
-        order: tour.keyPoints.length + 1,
+        order: 1,
         tourId: Number(tourId)
       };
 
-      tourService.addKeyPoint(Number(tourId), kp)
+      tourService.deleteKeyPoint(Number(tourId), editingKeypointId)
+        .then(() => {
+          return tourService.addKeyPoint(Number(tourId), kp);
+        })
         .then(() => {
           clearKeypointForm();
           loadTourForEdit(Number(tourId));
-          addBtn.disabled = false;
-          addBtn.textContent = "Add Keypoint";
+          resetEditMode();
         })
         .catch(err => {
           showError(err.message);
           addBtn.disabled = false;
-          addBtn.textContent = "Add Keypoint";
+          addBtn.textContent = "Update Keypoint";
         });
-    }).catch(err => {
-      showError("Error loading tour: " + err.message);
-      addBtn.disabled = false;
-      addBtn.textContent = "Add Keypoint";
-    });
+
+    } else {
+      addBtn.textContent = "Adding...";
+
+      tourService.getById(Number(tourId)).then(tour => {
+        const kp: KeypointFormData = {
+          name: (document.getElementById("kp-name") as HTMLInputElement).value,
+          description: (document.getElementById("kp-desc") as HTMLInputElement).value,
+          imageUrl: (document.getElementById("kp-img") as HTMLInputElement).value,
+          latitude: parseFloat((document.getElementById("kp-lat") as HTMLInputElement).value),
+          longitude: parseFloat((document.getElementById("kp-lon") as HTMLInputElement).value),
+          order: tour.keyPoints.length + 1,
+          tourId: Number(tourId)
+        };
+
+        tourService.addKeyPoint(Number(tourId), kp)
+          .then(() => {
+            clearKeypointForm();
+            loadTourForEdit(Number(tourId));
+            addBtn.disabled = false;
+            addBtn.textContent = "Add Keypoint";
+          })
+          .catch(err => {
+            showError(err.message);
+            addBtn.disabled = false;
+            addBtn.textContent = "Add Keypoint";
+          });
+      }).catch(err => {
+        showError("Error loading tour: " + err.message);
+        addBtn.disabled = false;
+        addBtn.textContent = "Add Keypoint";
+      });
+    }
   });
 }
 
@@ -148,7 +217,7 @@ function setupPublishButton(): void {
         dateTime: tour.dateTime,
         maxGuests: tour.maxGuests,
         guideId: tour.guideId,
-        status: "objavljena"
+        status: "published"
       };
 
       tourService.update(tour.id, tourData)
@@ -231,6 +300,15 @@ function renderKeypoints(keypoints: Keypoint[]): void {
     detailsDiv.id = `details-${kp.id}`;
     detailsBtn.setAttribute("data-id", kp.id.toString());
     removeBtn.setAttribute("data-id", kp.id.toString());
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.setAttribute("data-id", kp.id.toString());
+    editBtn.addEventListener("click", () => {
+      loadKeypointForEdit(kp.id);
+      document.getElementById("keypoint-form")?.scrollIntoView({ behavior: 'smooth' });
+    });
+    removeBtn.parentNode?.appendChild(editBtn);
 
     container.appendChild(clone);
   });

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Tours</title>
+  <link rel="stylesheet" href="../../../../dist/tours/pages/touristTours/touristTours.css">
+  <script type="module" src="../../../../dist/tours/pages/touristTours/touristTours.js"></script>
+</head>
+<body>
+  <div class="tours-container">
+    <div class="header-banner">
+      <h1>Available Tours</h1>
+    </div>
+
+    <!-- CONTROLS SECTION -->
+    <div class="controls-section">
+      <!-- SORT CONTROLS -->
+      <div class="sort-controls">
+        <label for="sortBy">Sort by:</label>
+        <select id="sortBy">
+          <option value="Name">Name</option>
+          <option value="DateTime">Date & Time</option>
+          <option value="MaxGuests">Max Guests</option>
+        </select>
+
+        <select id="sortDirection">
+          <option value="ASC">Ascending</option>
+          <option value="DESC">Descending</option>
+        </select>
+      </div>
+
+      <!-- PAGE SIZE CONTROLS -->
+      <div class="page-size-controls">
+        <label for="pageSize">Tours per page:</label>
+        <select id="pageSize">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- TOURS GRID -->
+    <div id="tours-grid" class="tours-grid">
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination-section">
+      <div class="pagination-info">
+        <span id="pagination-info">Showing 1-10 of 25 tours</span>
+      </div>
+      
+      <div class="pagination-controls">
+        <button id="prevBtn" disabled>Previous</button>
+        <span id="currentPage">Page 1</span>
+        <button id="nextBtn">Next</button>
+      </div>
+    </div>
+
+    <!-- LOADING SPINNER -->
+    <div id="loading" class="loading-overlay" style="display: none;">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    <div id="error-message" class="error-message" style="display: none;"></div>
+  </div>
+
+  <!-- MODAL FOR TOUR DETAILS -->
+  <div id="tourModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTourName"></h2>
+        <span class="close">&times;</span>
+      </div>
+      
+      <div class="modal-body">
+        <div class="tour-info">
+          <p><strong>Description:</strong> <span id="modalDescription"></span></p>
+          <p><strong>Date & Time:</strong> <span id="modalDateTime"></span></p>
+          <p><strong>Max Guests:</strong> <span id="modalMaxGuests"></span></p>
+        </div>
+        
+        <div class="keypoints-section">
+          <h3>Key Points</h3>
+          <div id="modalKeypoints"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEMPLATE za tour karticu -->
+  <template id="tour-card-template">
+    <div class="tour-card">
+      <div class="tour-card-header">
+        <h3 class="tour-name"></h3>
+        <span class="tour-date"></span>
+      </div>
+      
+      <div class="tour-card-body">
+        <p class="tour-description"></p>
+        <div class="tour-meta">
+          <span class="max-guests">👥 <span class="guests-count"></span> guests</span>
+        </div>
+      </div>
+      
+      <div class="tour-card-footer">
+        <button class="view-details-btn">View Details</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- TEMPLATE za keypoint -->
+  <template id="keypoint-template">
+    <div class="keypoint-item">
+      <div class="keypoint-image">
+        <img src="" alt="" />
+      </div>
+      <div class="keypoint-content">
+        <h4 class="keypoint-name"></h4>
+        <p class="keypoint-description"></p>
+        <p class="keypoint-coordinates">📍 <span class="coordinates"></span></p>
+      </div>
+    </div>
+  </template>
+</body>
+
+</html>

@@ -36,6 +36,9 @@ function handleLogin(event: Event) {
             if(user.role === 'vodic'){
                 window.location.href = "../../../tours/pages/viewTours/viewTour.html";
             }
+            if(user.role === 'turista'){
+                window.location.href = "../../../tours/pages/touristTours/touristTours.html";
+            }
         })
         .catch((error) => {
             console.error('Login failed', error.message);
