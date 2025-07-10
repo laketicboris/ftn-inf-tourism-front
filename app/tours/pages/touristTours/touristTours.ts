@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeElements();
   setupEventListeners();
   loadTours();
+
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "../../../users/pages/login/login.html";
+    });
+  }
 });
 
 function initializeElements(): void {
@@ -76,6 +84,13 @@ function setupEventListeners(): void {
   });
 
   setupModalControls();
+
+  const myReservationsBtn = document.getElementById("myReservationsBtn");
+  if (myReservationsBtn) {
+    myReservationsBtn.addEventListener("click", () => {
+      window.location.href = "../touristReservation/touristReservation.html";
+    });
+  }
 }
 
 function setupModalControls(): void {
@@ -94,9 +109,6 @@ function setupModalControls(): void {
 }
 
 function loadTours(): void {
-  showLoading(true);
-  hideError();
-
   tourService.getPublishedTours(currentPage, pageSize, sortBy, sortDirection)
     .then(result => {
       currentTours = result.data;
@@ -126,7 +138,7 @@ function renderTours(): void {
 
   currentTours.forEach(tour => {
     const clone = template.content.cloneNode(true) as DocumentFragment;
-    
+
     const nameElement = clone.querySelector(".tour-name")!;
     const dateElement = clone.querySelector(".tour-date")!;
     const descriptionElement = clone.querySelector(".tour-description")!;
@@ -137,6 +149,10 @@ function renderTours(): void {
     dateElement.textContent = formatDate(tour.dateTime);
     descriptionElement.textContent = truncateDescription(tour.description, 100);
     guestsCountElement.textContent = tour.maxGuests.toString();
+
+    const imageElement = clone.querySelector(".tour-image") as HTMLImageElement;
+    imageElement.src = `https://picsum.photos/seed/${encodeURIComponent(tour.name)}/400/200`;
+    imageElement.alt = tour.name;
 
     viewDetailsBtn.addEventListener("click", () => {
       showTourDetails(tour);
@@ -153,12 +169,19 @@ function showTourDetails(tour: Tour): void {
   const modalDateTime = document.getElementById("modalDateTime")!;
   const modalMaxGuests = document.getElementById("modalMaxGuests")!;
   const modalKeypoints = document.getElementById("modalKeypoints")!;
-  
+  const guestInput = document.getElementById("guestCount") as HTMLInputElement;
+  const reserveBtn = document.getElementById("reserveBtn") as HTMLButtonElement;
+  const reservationMessage = document.getElementById("reservation-message") as HTMLParagraphElement;
+
   modalTourName.textContent = tour.name;
   modalDescription.textContent = tour.description;
   modalDateTime.textContent = formatDate(tour.dateTime);
   modalMaxGuests.textContent = tour.maxGuests.toString();
   modal.style.display = "flex";
+
+  guestInput.value = "";
+  reservationMessage.textContent = "";
+  reservationMessage.style.color = "";
 
   tourService.getById(tour.id)
     .then(fullTour => {
@@ -168,6 +191,58 @@ function showTourDetails(tour: Tour): void {
       console.error("Error loading tour details:", error);
       modalKeypoints.innerHTML = "<p style='text-align: center; color: #ff6b6b;'>Failed to load key points.</p>";
     });
+
+  reserveBtn.onclick = async () => {
+    const userId = parseInt(localStorage.getItem("userId") || "0");
+    const numberOfGuests = parseInt(guestInput.value);
+
+    if (numberOfGuests <= 0 || isNaN(numberOfGuests)) {
+      reservationMessage.textContent = "Please enter a valid number of guests.";
+      reservationMessage.style.color = "red";
+      return;
+    }
+
+    try {
+      const existingReservationsResponse = await fetch(`http://localhost:5105/api/tours/reservations?touristId=${userId}`);
+
+      if (existingReservationsResponse.ok) {
+        const existingReservations = await existingReservationsResponse.json();
+
+        const hasActiveReservation = existingReservations.some((reservation: { tourId: number, status: string }) =>
+          reservation.tourId === tour.id && reservation.status === "Active"
+        );
+
+        if (hasActiveReservation) {
+          reservationMessage.textContent = "You already have an active reservation for this tour.";
+          reservationMessage.style.color = "red";
+          return;
+        }
+      }
+    } catch (error) {
+      console.error("Error checking existing reservations:", error);
+    }
+    fetch(`http://localhost:5105/api/tours/${tour.id}/reservations?userId=${userId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ numberOfGuests }),
+    })
+      .then(response => {
+        if (response.ok) {
+          reservationMessage.textContent = "Reservation successful!";
+          reservationMessage.style.color = "green";
+        } else {
+          return response.text().then(errorText => {
+            reservationMessage.textContent = errorText || "Reservation failed.";
+            reservationMessage.style.color = "red";
+          });
+        }
+      })
+      .catch(error => {
+        console.error("Reservation error:", error);
+        reservationMessage.textContent = "An unexpected error occurred.";
+        reservationMessage.style.color = "red";
+      });
+  };
 }
 
 function renderKeypoints(keypoints: Keypoint[], container: HTMLElement): void {
@@ -177,7 +252,7 @@ function renderKeypoints(keypoints: Keypoint[], container: HTMLElement): void {
     container.innerHTML = "<p style='text-align: center; color: #666;'>No key points available for this tour.</p>";
     return;
   }
-  
+
   keypoints.forEach(keypoint => {
     const keypointDiv = document.createElement("div");
     keypointDiv.className = "keypoint-item";
@@ -198,15 +273,15 @@ function renderKeypoints(keypoints: Keypoint[], container: HTMLElement): void {
 function updatePaginationInfo(): void {
   const startItem = totalCount === 0 ? 0 : ((currentPage - 1) * pageSize) + 1;
   const endItem = Math.min(currentPage * pageSize, totalCount);
-  
+
   paginationInfo.textContent = `Showing ${startItem}-${endItem} of ${totalCount} tours`;
 }
 
 function updatePaginationControls(): void {
   const totalPages = Math.ceil(totalCount / pageSize);
-  
+
   currentPageSpan.textContent = `Page ${currentPage}`;
-  
+
   prevBtn.disabled = currentPage === 1;
   nextBtn.disabled = currentPage === totalPages;
 }
@@ -236,8 +311,4 @@ function showLoading(show: boolean): void {
 function showError(message: string): void {
   errorMessage.textContent = message;
   errorMessage.style.display = "block";
-}
-
-function hideError(): void {
-  errorMessage.style.display = "none";
 }

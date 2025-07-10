@@ -19,7 +19,7 @@ function renderTours(): void {
       tours.forEach(tour => {
         const row = document.createElement("tr");
 
-        const publishButton = tour.status !== "objavljena" 
+        const publishButton = tour.status !== "objavljena"
           ? `<td><button class="publish-btn" data-id="${tour.id}">Publish</button></td>`
           : `<td>-</td>`;
 
@@ -67,7 +67,7 @@ function setupTableListeners(): void {
       const idAttr = deleteBtn.getAttribute("data-id");
       if (idAttr) {
         if (!confirm("Are you sure you want to delete this tour?")) return;
-        
+
         const id = Number(idAttr);
         tourService.delete(id)
           .then(() => {
@@ -86,17 +86,17 @@ function setupTableListeners(): void {
       const idAttr = publishBtn.getAttribute("data-id");
       if (idAttr) {
         const id = Number(idAttr);
-        
+
         tourService.getById(id)
           .then(tour => {
-            const canPublish = tour.keyPoints.length >= 2 && 
-                               tour.keyPoints.every(kp => kp.description.length >= 250);
-            
+            const canPublish = tour.keyPoints.length >= 2 &&
+              tour.keyPoints.every(kp => kp.description.length >= 250);
+
             if (!canPublish) {
               alert("Cannot publish tour. At least 2 keypoints with 250+ characters in description are required.");
               return;
             }
-            
+
             const tourData = {
               name: tour.name,
               description: tour.description,
@@ -131,6 +131,14 @@ document.addEventListener("DOMContentLoaded", () => {
     addBtn.addEventListener("click", () => {
       addBtn.disabled = true;
       window.location.href = "../addTours/addTour.html";
+    });
+  }
+
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "../../../users/pages/login.html";
     });
   }
 });
