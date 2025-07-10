@@ -95,37 +95,37 @@ export class TourService {
       });
   }
 
-  getPublishedTours(page: number = 1, pageSize: number = 10, orderBy: string = 'Name', orderDirection: string = 'ASC'): Promise<{data: Tour[], totalCount: number}> {
-  const queryParams = new URLSearchParams({
-    page: page.toString(),
-    pageSize: pageSize.toString(),
-    orderBy: orderBy,
-    orderDirection: orderDirection,
-    status: 'objavljena'
-  });
-
-  const url = `${this.apiUrl}?${queryParams.toString()}`;
-  
-  return fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        return response.text().then(errorMessage => {
-          throw { status: response.status, message: errorMessage };
-        });
-      }
-      return response.json();
-    })
-    .then(result => {
-      return {
-        data: result.data || [],
-        totalCount: result.totalCount || 0
-      };
-    })
-    .catch(error => {
-      console.error("Error fetching published tours:", error.status || error.message);
-      throw error;
+  getPublishedTours(page: number = 1, pageSize: number = 10, orderBy: string = 'Name', orderDirection: string = 'ASC'): Promise<{ data: Tour[], totalCount: number }> {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      pageSize: pageSize.toString(),
+      orderBy: orderBy,
+      orderDirection: orderDirection,
+      status: 'objavljena'
     });
-}
+
+    const url = `${this.apiUrl}?${queryParams.toString()}`;
+
+    return fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(errorMessage => {
+            throw { status: response.status, message: errorMessage };
+          });
+        }
+        return response.json();
+      })
+      .then(result => {
+        return {
+          data: result.data || [],
+          totalCount: result.totalCount || 0
+        };
+      })
+      .catch(error => {
+        console.error("Error fetching published tours:", error.status || error.message);
+        throw error;
+      });
+  }
 
   addKeyPoint(tourId: number, keyPointData: KeypointFormData): Promise<void> {
     return fetch(`${this.apiUrl}/${tourId}/key-points`, {
@@ -160,14 +160,14 @@ export class TourService {
   }
 
   updateKeyPoint(tourId: number, keypointId: number, data: KeypointFormData): Promise<void> {
-  return fetch(`${this.apiUrl}/${tourId}/key-points/${keypointId}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  }).then(response => {
-    if (!response.ok) {
-      return response.text().then(msg => { throw new Error(msg); });
-    }
-  });
-}
+    return fetch(`${this.apiUrl}/${tourId}/key-points/${keypointId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then(response => {
+      if (!response.ok) {
+        return response.text().then(msg => { throw new Error(msg); });
+      }
+    });
+  }
 }

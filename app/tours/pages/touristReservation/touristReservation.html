@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Reservations</title>
+  <link rel="stylesheet" href="../../../../dist/tours/pages/touristReservation/touristReservation.css">
+  <script type="module" src="../../../../dist/tours/pages/touristReservation/touristReservation.js"></script>
+</head>
+
+<body>
+  <!-- navbar -->
+  <nav class="main-navbar">
+    <div class="nav-left">
+      <a href="../touristTours/touristTours.html">Browse Tours</a>
+      <a href="../touristReservation/touristReservation.html">My Reservations</a>
+    </div>
+    <div class="nav-right">
+      <button id="logoutBtn">Log out</button>
+    </div>
+  </nav>
+
+  <div class="reservations-container">
+    <div class="header-banner">
+      <h1>My Reservations</h1>
+      <p>Manage your tour reservations</p>
+    </div>
+
+    <div id="loading" class="loading-overlay" style="display: none;">
+      <div class="spinner"></div>
+    </div>
+
+    <div id="error-message" class="error-message" style="display: none;"></div>
+
+    <div id="no-reservations" class="no-reservations" style="display: none;">
+      <h2>No reservations found</h2>
+      <p>You haven't made any reservations yet.</p>
+      <a href="../touristTours/touristTours.html" class="browse-tours-btn">Browse Tours</a>
+    </div>
+
+    <!-- reservations -->
+    <div id="reservations-grid" class="reservations-grid">
+
+    </div>
+
+    <!-- back to tours -->
+    <div class="back-section">
+      <a href="../touristTours/touristTours.html" class="back-btn">← Back to Tours</a>
+    </div>
+  </div>
+
+  <!-- template za rezervacije kartice -->
+  <template id="reservation-card-template">
+    <div class="reservation-card">
+      <div class="reservation-image">
+        <img src="" alt="" class="tour-image" />
+        <div class="status-badge"></div>
+      </div>
+
+      <div class="reservation-content">
+        <div class="reservation-header">
+          <h3 class="tour-name"></h3>
+          <span class="tour-date"></span>
+        </div>
+
+        <div class="reservation-details">
+          <p class="tour-description"></p>
+          <div class="reservation-meta">
+            <span class="guests-info">👥 <span class="guests-count"></span> guests</span>
+            <span class="reserved-date">📅 Reserved: <span class="reservation-date"></span></span>
+          </div>
+        </div>
+
+        <div class="reservation-actions">
+          <div class="cancel-info">
+            <small class="cancel-notice"></small>
+          </div>
+          <button class="cancel-btn">Cancel Reservation</button>
+        </div>
+      </div>
+    </div>
+  </template>
+</body>
+
+</html>
